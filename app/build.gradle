@@ -32,9 +32,17 @@ java {
     }
 }
 
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'me.enchan.dtm_on_jdk.App'
+        )
+    }
+}
+
 application {
     // Define the main class for the application.
-    mainClass = 'org.example.App'
+    mainClass = 'me.enchan.dtm_on_jdk.App'
 }
 
 tasks.named('test') {
