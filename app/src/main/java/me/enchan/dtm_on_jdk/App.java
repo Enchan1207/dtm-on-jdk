@@ -3,12 +3,33 @@
  */
 package me.enchan.dtm_on_jdk;
 
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.ShortMessage;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+
+    private void run() throws Exception {
+        // シンセサイザー こいつにMidiメッセージを流し込むと音が鳴る
+        final var synthesizer = MidiSystem.getSynthesizer();
+        synthesizer.open();
+
+        final var noteOn = new ShortMessage(ShortMessage.NOTE_ON, 64, 127);
+        final var noteOff = new ShortMessage(ShortMessage.NOTE_OFF, 64, 0);
+
+        final var receiver = synthesizer.getReceiver();
+        receiver.send(noteOn, 0);
+        receiver.send(noteOff, 1_000_000);
+
+        Thread.sleep(2000);
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        App app = new App();
+        try {
+            app.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
