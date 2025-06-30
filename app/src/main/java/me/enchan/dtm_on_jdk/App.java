@@ -14,6 +14,7 @@ public class App {
 
         // チャンネル0を取得
         final var channel = synthesizer.getChannels()[0];
+        channel.programChange(25);
 
         // チャンネル0の発声を開始
         final int velocity = 127; // 最大値
