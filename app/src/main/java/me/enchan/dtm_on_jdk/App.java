@@ -12,24 +12,23 @@ public class App {
         final var synthesizer = MidiSystem.getSynthesizer();
         synthesizer.open();
 
-        // レシーバを取得
-        final var receiver = synthesizer.getReceiver();
+        // チャンネル0を取得
+        final var channel = synthesizer.getChannels()[0];
 
-        // メッセージを生成
-        final int keyCode = 69; // A3
+        // チャンネル0の発声を開始
         final int velocity = 127; // 最大値
-        final var noteOnMessage = new ShortMessage(ShortMessage.NOTE_ON, keyCode, velocity);
-        final var noteOffMessage = new ShortMessage(ShortMessage.NOTE_OFF, keyCode, velocity);
-
-        // レシーバに流し込む
-        receiver.send(noteOnMessage, 0);
-        receiver.send(noteOffMessage, 2_000_000);
+        channel.noteOn(60, velocity); // C3
+        channel.noteOn(64, velocity); // E3
+        channel.noteOn(67, velocity); // G3
 
         // Enterキーが押されるまで待機する
         System.out.println("type Enter key to exit");
         final var scanner = new Scanner(System.in);
         scanner.nextLine();
         scanner.close();
+
+        // 発声を終了
+        channel.allNotesOff();
 
         // 後処理
         synthesizer.close();
